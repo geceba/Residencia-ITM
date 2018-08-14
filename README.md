@@ -1,5 +1,5 @@
-# TIME SERIES TKINTER
+﻿# TIME SERIES TKINTER
 
 Residencia profesional Instituto Tecnológico de Mérida
 
-![Imagen de ITMERIDA](https://webmail.itmerida.mx/imagenes/logo_tec.png)
+->![Imagen de ITMERIDA](https://pbs.twimg.com/profile_images/2168766359/logo-original-tec_400x400.png)<-
