@@ -18,10 +18,13 @@ import pandas as pd, numpy as np, datetime
 LARGE_FONT = ("Verdana", 12)
 style.use("ggplot")
 
-
+# figure permite dibujar, en este caso permite mostrar la grafica
+# add_subplot agregar al canvas en este caso el figure
 f = Figure(figsize=(6,4), dpi=100)
 a = f.add_subplot(111)
 
+
+# la funcion animate permite leer y animar la data en una grafica
 def animate(i):
     x = np.array(pd.read_csv("http://www.google.com/finance/getprices?q=AAPL&i=300&p=10d&f=d,o,h,l,c,v", skiprows=7, header=None))
     date=[]
@@ -34,27 +37,31 @@ def animate(i):
     data1=pd.DataFrame(x, index=date)
     data1.columns=['a', 'Open', 'High','Low','Close','Vol']
 	
+	# limpiamos a para poder agregar y el plot agregara la data que se lee
     a.clear()
     a.plot(data1['Close'])
 
+#esta clase es la principal, aqui llamo lo que necesito en la interfaz
+# tk.Tk es el parametro que necesitamos para llamar la biblioteca que nos permite realizar la interfaz
 class SeaofBTCapp(tk.Tk):
 
 	def __init__(self, *args, **kwargs):
 
 		tk.Tk.__init__(self, *args, **kwargs)
 		
-		tk.Tk.iconbitmap(self, default="icon.ico")
-		tk.Tk.wm_title(self, "Analisis de Datos")
+		tk.Tk.iconbitmap(self, default="icon.ico") # icono del programa
+		tk.Tk.wm_title(self, "Analisis de Datos") # agregar titulo al programa
 
-		container = tk.Frame(self)
+		container = tk.Frame(self) # contenedor del marco
 
-		container.pack(side="top", fill="both", expand=True)
+		container.pack(side="top", fill="both", expand=True) # pack sirve para agregar lo que creamos al marco
 
-		container.grid_rowconfigure(0, weight=1)
+		container.grid_rowconfigure(0, weight=1) # en esta modificamos filas y columnas, esta parte del codigo solo es el contenedor
 		container.grid_columnconfigure(0, weight=1)
 
-		self.frames = {}
+		self.frames = {} # diccionario vacio para agregar al frame padre
 
+		# recorremos las dos clases StartPage y BTC, son nada mas nuevas ventanas
 		for F in (StartPage, BTCe_Page):
 
 			frame = F(container, self)
@@ -63,7 +70,7 @@ class SeaofBTCapp(tk.Tk):
 
 			frame.grid(row=0, column=0, sticky="nsew")
 
-		self.show_frame(StartPage)
+		self.show_frame(StartPage) # show frame es lo primero que mostrara
 
 	def show_frame(self, cont):
 		frame = self.frames[cont]
@@ -94,7 +101,7 @@ class BTCe_Page(tk.Frame):
 		
 
 		canvas = FigureCanvasTkAgg(f, self)
-		canvas.show()
+		canvas.show()|
 		canvas.get_tk_widget().pack(side = tk.TOP, fill = tk.BOTH, expand = True)
 
 		toolbar = NavigationToolbar2TkAgg(canvas, self)
