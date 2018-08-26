@@ -101,7 +101,7 @@ class BTCe_Page(tk.Frame):
 		
 
 		canvas = FigureCanvasTkAgg(f, self)
-		canvas.show()|
+		canvas.show()
 		canvas.get_tk_widget().pack(side = tk.TOP, fill = tk.BOTH, expand = True)
 
 		toolbar = NavigationToolbar2TkAgg(canvas, self)
