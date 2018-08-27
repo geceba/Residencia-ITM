@@ -25,6 +25,7 @@ a = f.add_subplot(111)
 
 
 # la funcion animate permite leer y animar la data en una grafica
+# este metodo permitira filtrar la informacion correcta
 def animate(i):
     x = np.array(pd.read_csv("http://www.google.com/finance/getprices?q=AAPL&i=300&p=10d&f=d,o,h,l,c,v", skiprows=7, header=None))
     date=[]
