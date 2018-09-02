@@ -10,9 +10,8 @@ from matplotlib import	style
 import tkinter as tk
 from tkinter import ttk
 
-import urllib
-import json
-
+import requests
+import csv
 import pandas as pd, numpy as np, datetime
 
 LARGE_FONT = ("Verdana", 12)
@@ -20,27 +19,25 @@ style.use("ggplot")
 
 # figure permite dibujar, en este caso permite mostrar la grafica
 # add_subplot agregar al canvas en este caso el figure
-f = Figure(figsize=(6,4), dpi=100)
+f = Figure(figsize=(10,5), dpi=100)
 a = f.add_subplot(111)
 
 
 # la funcion animate permite leer y animar la data en una grafica
 # este metodo permitira filtrar la informacion correcta
 def animate(i):
-    x = np.array(pd.read_csv("http://www.google.com/finance/getprices?q=AAPL&i=300&p=10d&f=d,o,h,l,c,v", skiprows=7, header=None))
-    date=[]
-    for i in range(0, len(x)):
-        if x[i][0][0]=='a':
-            t= datetime.datetime.fromtimestamp(int(x[i][0].replace('a','')))
-            date.append(t)
-        else:
-            date.append(t+datetime.timedelta(minutes =int(x[i][0])))
-    data1=pd.DataFrame(x, index=date)
-    data1.columns=['a', 'Open', 'High','Low','Close','Vol']
+	r = requests.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=TU10HCWDTV5CNVBN")
+	data = r.json()
+	#print(type(data))
 	
-	# limpiamos a para poder agregar y el plot agregara la data que se lee
-    a.clear()
-    a.plot(data1['Close'])
+	dicto = []
+	for valor in data["Time Series (Daily)"]:
+		#print(data["Time Series (Daily)"][valor]["1. open"])
+		d = data["Time Series (Daily)"][valor]
+		dicto.append(d)
+	df= pd.DataFrame(dicto)
+	a.plot(df['4. close'])
+	
 
 #esta clase es la principal, aqui llamo lo que necesito en la interfaz
 # tk.Tk es el parametro que necesitamos para llamar la biblioteca que nos permite realizar la interfaz
@@ -105,11 +102,8 @@ class BTCe_Page(tk.Frame):
 		canvas.show()
 		canvas.get_tk_widget().pack(side = tk.TOP, fill = tk.BOTH, expand = True)
 
-		toolbar = NavigationToolbar2TkAgg(canvas, self)
-		toolbar.update()
-		canvas._tkcanvas.pack(side = tk.TOP, fill = tk.BOTH, expand = True)
 
 
 app = SeaofBTCapp()
-ani = animation.FuncAnimation(f, animate, interval = 1000)
+ani = animation.FuncAnimation(f, animate, frames=None)
 app.mainloop()
