@@ -37,7 +37,8 @@ def animate(i):
 		d = data["Time Series (Daily)"][valor]
 		dicto.append(d)
 	df= pd.DataFrame(dicto)
-	a.plot(df['4. close'])
+	value = df['4. close'].astype(float)
+	a.plot(value)
 	
 
 #esta clase es la principal, aqui llamo lo que necesito en la interfaz
