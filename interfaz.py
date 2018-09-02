@@ -1,3 +1,4 @@
+# Bibliotecas
 import matplotlib
 matplotlib.use("TkAgg")
 
@@ -105,5 +106,5 @@ class BTCe_Page(tk.Frame):
 
 
 app = SeaofBTCapp()
-ani = animation.FuncAnimation(f, animate, frames=None)
+ani = animation.FuncAnimation(f, animate, interval = 100000)
 app.mainloop()
