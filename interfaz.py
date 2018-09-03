@@ -7,7 +7,6 @@ from matplotlib.figure import Figure
 import matplotlib.animation as animation
 from matplotlib import	style
 
-
 import tkinter as tk
 from tkinter import ttk
 
@@ -22,7 +21,6 @@ style.use("ggplot")
 # add_subplot agregar al canvas en este caso el figure
 f = Figure(figsize=(10,5), dpi=100)
 a = f.add_subplot(111)
-
 
 # la funcion animate permite leer y animar la data en una grafica
 # este metodo permitira filtrar la informacion correcta
@@ -98,13 +96,9 @@ class Graph_Page(tk.Frame):
 		button1 = ttk.Button(self, text="Regresar a la página principal", command=lambda: controller.show_frame(StartPage))
 		button1.pack()
 
-		
-
 		canvas = FigureCanvasTkAgg(f, self)
 		canvas.show()
 		canvas.get_tk_widget().pack(side = tk.TOP, fill = tk.BOTH, expand = True)
-
-
 
 app = SeaofBTCapp()
 ani = animation.FuncAnimation(f, animate, interval = 100000)
