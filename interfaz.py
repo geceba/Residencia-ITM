@@ -48,6 +48,9 @@ def animate(i):
 	df= pd.DataFrame(dicto)
 	value = df['4. close'].astype(float)
 	a.plot(value)
+	a.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=3,
+             ncol=2, borderaxespad=0)
+	a.set_title('Time Series')
 	
 
 #esta clase es la principal, aqui llamo lo que necesito en la interfaz
