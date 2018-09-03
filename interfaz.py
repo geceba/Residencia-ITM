@@ -26,7 +26,7 @@ a = f.add_subplot(111)
 
 def popupmsg(msg):
     popup = tk.Tk()
-    popup.wm_title("!")
+    popup.wm_title("epppa")
     label = ttk.Label(popup, text=msg, font=NORM_FONT)
     label.pack(side="top", fill="x", pady=10)
     B1 = ttk.Button(popup, text="Okay", command = popup.destroy)
@@ -35,7 +35,7 @@ def popupmsg(msg):
 
 # la funcion animate permite leer y animar la data en una grafica
 # este metodo permitira filtrar la informacion correcta
-def animate(i):
+def animate():
 	r = requests.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=TU10HCWDTV5CNVBN")
 	data = r.json()
 	#print(type(data))
@@ -47,6 +47,7 @@ def animate(i):
 		dicto.append(d)
 	df= pd.DataFrame(dicto)
 	value = df['4. close'].astype(float)
+	a.clear()
 	a.plot(value)
 	a.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=3,
              ncol=2, borderaxespad=0)
@@ -91,7 +92,7 @@ class SeaofBTCapp(tk.Tk):
 
 			frame.grid(row=0, column=0, sticky="nsew")
 
-		self.show_frame(StartPage) # show frame es lo primero que mostrara
+		self.show_frame(StartPage) # show frame es lo primero que mostrará
 
 	def show_frame(self, cont):
 		# Obtiene el frame de la pagina que estamos llamando
@@ -119,11 +120,11 @@ class Graph_Page(tk.Frame):
 
 		button1 = ttk.Button(self, text="Regresar a la página principal", command=lambda: controller.show_frame(StartPage))
 		button1.pack()
-
+		animate()
 		canvas = FigureCanvasTkAgg(f, self)
 		canvas.show()
 		canvas.get_tk_widget().pack(side = tk.TOP, fill = tk.BOTH, expand = True)
 
 app = SeaofBTCapp()
-ani = animation.FuncAnimation(f, animate, interval = 100000)
+#ani = animation.FuncAnimation(f, animate, interval = 100000)
 app.mainloop()
