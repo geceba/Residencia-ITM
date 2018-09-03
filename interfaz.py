@@ -62,7 +62,7 @@ class SeaofBTCapp(tk.Tk):
 		self.frames = {} # diccionario vacio para agregar al frame padre
 
 		# recorremos las dos clases StartPage y BTC, son nada mas nuevas ventanas
-		for F in (StartPage, BTCe_Page):
+		for F in (StartPage, Graph_Page):
 
 			frame = F(container, self)
 
@@ -83,13 +83,13 @@ class StartPage(tk.Frame):
 		label = tk.Label(self, text=("""Bienvenido a la aplicacion de analisis de datos"""), font=LARGE_FONT)
 		label.pack(pady=10, padx=10)
 
-		button1 = ttk.Button(self, text="Iniciar", command=lambda: controller.show_frame(BTCe_Page))
+		button1 = ttk.Button(self, text="Iniciar", command=lambda: controller.show_frame(Graph_Page))
 		button1.pack()
 
 		button2 = ttk.Button(self, text="Salir", command=quit)
 		button2.pack()
 
-class BTCe_Page(tk.Frame):
+class Graph_Page(tk.Frame):
 	def __init__(self, parent, controller):
 		tk.Frame.__init__(self, parent)
 		label = tk.Label(self, text="Grafica", font=LARGE_FONT)
