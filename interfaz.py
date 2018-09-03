@@ -15,12 +15,23 @@ import csv
 import pandas as pd, numpy as np, datetime
 
 LARGE_FONT = ("Verdana", 12)
+NORM_FONT= ("Verdana", 10)
 style.use("ggplot")
 
 # figure permite dibujar, en este caso permite mostrar la grafica
 # add_subplot agregar al canvas en este caso el figure
 f = Figure(figsize=(10,5), dpi=100)
 a = f.add_subplot(111)
+
+
+def popupmsg(msg):
+    popup = tk.Tk()
+    popup.wm_title("!")
+    label = ttk.Label(popup, text=msg, font=NORM_FONT)
+    label.pack(side="top", fill="x", pady=10)
+    B1 = ttk.Button(popup, text="Okay", command = popup.destroy)
+    B1.pack()
+    popup.mainloop()
 
 # la funcion animate permite leer y animar la data en una grafica
 # este metodo permitira filtrar la informacion correcta
@@ -57,6 +68,15 @@ class SeaofBTCapp(tk.Tk):
 		container.grid_rowconfigure(0, weight=1) # en esta modificamos filas y columnas, esta parte del codigo solo es el contenedor
 		container.grid_columnconfigure(0, weight=1)
 
+		menubar = tk.Menu(container)
+		filemenu = tk.Menu(menubar, tearoff=0)
+		filemenu.add_command(label="Save settings", command = lambda: popupmsg("Not supported just yet!"))
+		filemenu.add_separator()
+		filemenu.add_command(label="Exit", command=quit)
+		menubar.add_cascade(label="File", menu=filemenu)
+		
+		tk.Tk.config(self, menu=menubar)
+
 		self.frames = {} # diccionario vacio para agregar al frame padre
 
 		# recorremos las dos clases StartPage y BTC, son nada mas nuevas ventanas
@@ -71,6 +91,7 @@ class SeaofBTCapp(tk.Tk):
 		self.show_frame(StartPage) # show frame es lo primero que mostrara
 
 	def show_frame(self, cont):
+		# Obtiene el frame de la pagina que estamos llamando
 		frame = self.frames[cont]
 		frame.tkraise()
 
@@ -84,8 +105,8 @@ class StartPage(tk.Frame):
 		button1 = ttk.Button(self, text="Iniciar", command=lambda: controller.show_frame(Graph_Page))
 		button1.pack()
 
-		button2 = ttk.Button(self, text="Salir", command=quit)
-		button2.pack()
+		#button2 = ttk.Button(self, text="Salir", command=quit)
+		#button2.pack()
 
 class Graph_Page(tk.Frame):
 	def __init__(self, parent, controller):
