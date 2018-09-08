@@ -24,6 +24,8 @@ f = Figure(figsize=(10,5), dpi=100)
 a = f.add_subplot(111)
 
 
+
+
 def popupmsg(msg):
     popup = tk.Tk()
     popup.wm_title("epppa")
@@ -33,10 +35,23 @@ def popupmsg(msg):
     B1.pack()
     popup.mainloop()
 
+mensaje = ""
+def message(cadena):
+	toUpper = cadena.get()
+	global mensaje
+	mensaje += toUpper.upper()
+	secret = prinM()
+	#animate(secret)
+def prinM():
+	return mensaje
 # la funcion animate permite leer y animar la data en una grafica
 # este metodo permitira filtrar la informacion correcta
 def animate():
-	r = requests.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=TU10HCWDTV5CNVBN")
+	#print("mensaje "+ msg)
+	mensaje="MSFT"
+	url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="+mensaje+"&apikey=TU10HCWDTV5CNVBN"
+	print(url)
+	r = requests.get(url)
 	data = r.json()
 	#print(type(data))
 	
@@ -92,7 +107,7 @@ class SeaofBTCapp(tk.Tk):
 
 			frame.grid(row=0, column=0, sticky="nsew")
 
-		self.show_frame(StartPage) # show frame es lo primero que mostrará
+		self.show_frame(Graph_Page) # show frame es lo primero que mostrará
 
 	def show_frame(self, cont):
 		# Obtiene el frame de la pagina que estamos llamando
@@ -104,22 +119,26 @@ class StartPage(tk.Frame):
 	def __init__(self, parent, controller):
 		tk.Frame.__init__(self, parent)
 		label = tk.Label(self, text=("""Bienvenido a la aplicacion de analisis de datos"""), font=LARGE_FONT)
-		label.pack(pady=10, padx=10)
+		label.pack( pady=10, padx=10)
 
-		button1 = ttk.Button(self, text="Iniciar", command=lambda: controller.show_frame(Graph_Page))
+		ticket = tk.Label(self, text=("""Ticket"""), font=LARGE_FONT)
+		ticket.pack(pady=2)
+
+		inputicket = tk.StringVar()
+		inputT = tk.Entry(self,  textvariable=inputicket)
+		inputT.pack(pady=5)
+
+		button1 = ttk.Button(self, text="Iniciar", command=lambda: [controller.show_frame(Graph_Page), message(inputicket)])
 		button1.pack()
 
-		#button2 = ttk.Button(self, text="Salir", command=quit)
-		#button2.pack()
 
 class Graph_Page(tk.Frame):
 	def __init__(self, parent, controller):
 		tk.Frame.__init__(self, parent)
+		self.parent = parent
 		label = tk.Label(self, text="Grafica", font=LARGE_FONT)
 		label.pack(pady=10, padx=10)
 
-		button1 = ttk.Button(self, text="Regresar a la página principal", command=lambda: controller.show_frame(StartPage))
-		button1.pack()
 		animate()
 		canvas = FigureCanvasTkAgg(f, self)
 		canvas.show()
