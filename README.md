@@ -12,4 +12,4 @@ Requerimientos básicos
 #### Para correr el programa necesitas ejecutar este comando en el prompt de Windows
 ##### Nota - no me preocupe en correrlo en otra plataforma como linux o macOs
 
-> python TimeSeries.py -> en el prompt de windows
+> python TimeSeries.py

@@ -84,7 +84,7 @@ if __name__ == "__main__":
     root.title("Series de Tiempo en Python")
     root.geometry("1000x600")
     TimeSeries(root).pack(side="top", fill="both", expand=True)
-
+    root.iconbitmap(default="icon.ico")
     # menubar todo feo
     menubar = tk.Menu(root)
     filemenu = tk.Menu(menubar, tearoff=0)
