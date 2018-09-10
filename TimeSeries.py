@@ -13,14 +13,13 @@ NORM_FONT = ("Verdana", 10)
 style.use("ggplot")
 
 import requests
-import csv
 import pandas as pd
 import numpy as np
 import datetime
 
 f = Figure(figsize=(10, 5), dpi=100)
 a = f.add_subplot(111)
-
+bandera = False
 
 def popupmsg(msg):
     popup = tk.Tk()
@@ -38,40 +37,41 @@ class TimeSeries(tk.Frame):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         label = tk.Label(self, text=(
             """Bienvenido a la aplicacion de analisis de datos"""))
-        label.pack(side=tk.TOP, expand=True)
+        label.grid(row=0, column=0)
         self.parent = parent
-
+        
         self.InitUi()
-        self.canvasPlot()
+        #self.canvasPlot()
 
     def InitUi(self):
 
         self.label = ttk.Label(self, text="Seleccione su ticket")
-        self.label.pack(side=tk.TOP)
+        self.label.grid(row=1, column=0)
 
         self.ticket = tk.StringVar()
         self.combo = ttk.Combobox(
             self, width=15, textvariable=self.ticket, state='readonly')
         self.combo['values'] = ("AAPL", "MSFT", "AMZN", "GOOG", "ORCL")
-        self.combo.current(0)
-        self.combo.pack()
+        self.combo.current(2)
+        self.combo.grid(row=2, column=0)
 
-        self.button = ttk.Button(self, text="Click me", command=self.animate)
-        self.button.pack()
+        self.button = ttk.Button(self, text="Click me", command=self.clickMe)
+        self.button.grid(row=3, column=0)
 
     def clickMe(self):
-        print(self.ticket.get())
+        a.clear()
+        self.canvasPlot()
 
     def canvasPlot(self):
         canvas = FigureCanvasTkAgg(f, self)
         self.animate()
-        canvas.show()
-        canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+        canvas.draw()
+        canvas.get_tk_widget().grid(row=4, column=0)
 
     def animate(self):
         url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + \
             self.ticket.get()+"&apikey=TU10HCWDTV5CNVBN"
-        print(url)
+
         r = requests.get(url)
         data = r.json()
 
@@ -92,7 +92,15 @@ class TimeSeries(tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Series de Tiempo en Python")
-    root.geometry("900x400")
+    root.geometry("1200x600")
     TimeSeries(root).pack(side="top", fill="both", expand=True)
-
+    # menubar todo feo
+    menubar = tk.Menu(root)
+    filemenu = tk.Menu(menubar, tearoff=0)
+    filemenu.add_command(label="Save settings", command = lambda: popupmsg("Not supported just yet!"))
+    filemenu.add_separator()
+    filemenu.add_command(label="Exit", command=quit)
+    menubar.add_cascade(label="File", menu=filemenu)
+    root.config(menu=menubar)
+    # fin del menu
     root.mainloop()
