@@ -2,9 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 import matplotlib
 matplotlib.use("TkAgg")
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-import matplotlib.animation as animation
 from matplotlib import style
 import requests
 import pandas as pd
@@ -33,6 +32,7 @@ class TimeSeries(tk.Frame):
             """Bienvenido a la aplicacion de analisis de datos"""))
         label.grid(row=0, column=0)
         self.InitUi()
+        self.canvasPlot()
 
     def InitUi(self):
         self.label = ttk.Label(self, text="Seleccione su ticket")
@@ -61,7 +61,7 @@ class TimeSeries(tk.Frame):
     def animate(self):
         url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + \
             self.ticket.get()+"&apikey=TU10HCWDTV5CNVBN"
-
+        print(url)
         r = requests.get(url)
         data = r.json()
 
@@ -72,6 +72,7 @@ class TimeSeries(tk.Frame):
             dicto.append(d)
         df = pd.DataFrame(dicto)
         value = df['4. close'].astype(float)
+        print(value)
         a.clear()
         a.plot(value)
         a.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=3,
