@@ -19,7 +19,7 @@ import datetime
 
 f = Figure(figsize=(10, 5), dpi=100)
 a = f.add_subplot(111)
-bandera = False
+
 
 def popupmsg(msg):
     popup = tk.Tk()
@@ -32,19 +32,14 @@ def popupmsg(msg):
 
 
 class TimeSeries(tk.Frame):
-
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         label = tk.Label(self, text=(
             """Bienvenido a la aplicacion de analisis de datos"""))
         label.grid(row=0, column=0)
-        self.parent = parent
-        
         self.InitUi()
-        #self.canvasPlot()
 
     def InitUi(self):
-
         self.label = ttk.Label(self, text="Seleccione su ticket")
         self.label.grid(row=1, column=0)
 
@@ -94,13 +89,26 @@ if __name__ == "__main__":
     root.title("Series de Tiempo en Python")
     root.geometry("1200x600")
     TimeSeries(root).pack(side="top", fill="both", expand=True)
+
     # menubar todo feo
     menubar = tk.Menu(root)
     filemenu = tk.Menu(menubar, tearoff=0)
-    filemenu.add_command(label="Save settings", command = lambda: popupmsg("Not supported just yet!"))
+    filemenu.add_command(
+        label="Open", command=lambda: popupmsg("Not supported just yet!"))
     filemenu.add_separator()
     filemenu.add_command(label="Exit", command=quit)
     menubar.add_cascade(label="File", menu=filemenu)
+
+    EditMenu = tk.Menu(menubar, tearoff=0)
+    EditMenu.add_command(label="Copy")
+    EditMenu.add_command(label="Other")
+    menubar.add_cascade(label="Edit", menu=EditMenu)
+
+    helpmenu = tk.Menu(menubar, tearoff=0)
+    helpmenu.add_command(label="Help Index")
+    helpmenu.add_command(label="About...")
+    menubar.add_cascade(label="Help", menu=helpmenu)
+
     root.config(menu=menubar)
     # fin del menu
     root.mainloop()
