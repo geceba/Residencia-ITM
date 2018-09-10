@@ -2,24 +2,20 @@ import tkinter as tk
 from tkinter import ttk
 import matplotlib
 matplotlib.use("TkAgg")
-
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
 import matplotlib.animation as animation
 from matplotlib import style
+import requests
+import pandas as pd
+import numpy as np
 
 LARGE_FONT = ("Verdana", 12)
 NORM_FONT = ("Verdana", 10)
 style.use("ggplot")
 
-import requests
-import pandas as pd
-import numpy as np
-import datetime
-
 f = Figure(figsize=(10, 5), dpi=100)
 a = f.add_subplot(111)
-
 
 def popupmsg(msg):
     popup = tk.Tk()
@@ -29,7 +25,6 @@ def popupmsg(msg):
     B1 = ttk.Button(popup, text="Okay", command=popup.destroy)
     B1.pack()
     popup.mainloop()
-
 
 class TimeSeries(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
@@ -87,7 +82,7 @@ class TimeSeries(tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Series de Tiempo en Python")
-    root.geometry("1200x600")
+    root.geometry("1000x600")
     TimeSeries(root).pack(side="top", fill="both", expand=True)
 
     # menubar todo feo
