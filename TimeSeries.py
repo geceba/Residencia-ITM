@@ -45,10 +45,12 @@ class TimeSeries(tk.Frame):
         self.combo.current(2)
         self.combo.grid(row=2, column=0)
 
-        self.button = ttk.Button(self, text="Click me", command=self.clickMe)
+        self.combo.bind("<<ComboboxSelected>>", self.clickMe)
+
+        self.button = ttk.Button(self, text="Click me")
         self.button.grid(row=3, column=0)
 
-    def clickMe(self):
+    def clickMe(self, event):
         a.clear()
         self.canvasPlot()
 
