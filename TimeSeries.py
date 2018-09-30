@@ -15,6 +15,9 @@ style.use("ggplot")
 
 f = Figure(figsize=(10, 5), dpi=100)
 a = f.add_subplot(111)
+b = f.add_subplot(111)
+c = f.add_subplot(111)
+
 
 def popupmsg(msg):
     popup = tk.Tk()
@@ -61,25 +64,42 @@ class TimeSeries(tk.Frame):
         canvas.get_tk_widget().grid(row=4, column=0)
 
     def animate(self):
-        url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + \
-            self.ticket.get()+"&apikey=TU10HCWDTV5CNVBN"
-        print(url)
-        r = requests.get(url)
-        data = r.json()
+        url ="https://www.alphavantage.co/query"
 
-        dicto = []
-        for valor in data["Time Series (Daily)"]:
+        params = {
+            "function":"TIME_SERIES_DAILY_ADJUSTED",
+            "symbol": self.ticket.get(),
+            "apikey": "TU10HCWDTV5CNVBN"
+        }
 
-            d = data["Time Series (Daily)"][valor]
-            dicto.append(d)
-        df = pd.DataFrame(dicto)
-        value = df['4. close'].astype(float)
-        print(value)
+        response = requests.get(url, params=params)
+        data = response.json()
+
+        def convert_response(d):
+            for dt, prec in d['Time Series (Daily)'].items():
+                r = {'datetime': dt}
+                r.update(prec)
+                yield r
+
+        df = pd.DataFrame(convert_response(data))
+        # rename the columns    
+        df = df.rename(columns={ '1. open': 'Open', '2. high': 'High', '3. low': 'Low', '4. close': 'Close', '5. adjusted close': 'AdjClose', '6. volume': 'Volume'})
+        df['datetime'] = pd.to_datetime(df['datetime'])
+        df.set_index('datetime', inplace=True)
+        df.sort_index(inplace=True)
+        # extract the columns you want
+        value = df['Close'].astype(float)
+        df.dropna(inplace=True)
+        df.index = pd.to_datetime(df.index)
+        df['6-SMA']=df['Close'].astype(float).rolling(window=6).mean()
+        df['12-SMA']=df['Close'].astype(float).rolling(window=12).mean()
+    
+        
         a.clear()
         a.plot(value)
-        a.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=3,
-                 ncol=2, borderaxespad=0)
-        a.set_title(self.ticket.get())
+
+
+        #a.set_title(self.ticket.get())
 
 
 if __name__ == "__main__":
