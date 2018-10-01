@@ -93,10 +93,20 @@ class TimeSeries(tk.Frame):
         df.index = pd.to_datetime(df.index)
         df['6-SMA']=df['Close'].astype(float).rolling(window=6).mean()
         df['12-SMA']=df['Close'].astype(float).rolling(window=12).mean()
-    
+
+        valor = df['6-SMA'].astype(float)
+        print(valor.tail())
         
         a.clear()
+        b.clear()
         a.plot(value)
+        b.plot(valor)
+
+        a.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=3,
+                 ncol=2, borderaxespad=0)
+        b.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=3,
+                 ncol=2, borderaxespad=0)
+
 
 
         #a.set_title(self.ticket.get())
