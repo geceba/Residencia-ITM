@@ -91,10 +91,10 @@ class TimeSeries(tk.Frame):
         value = df['Close'].astype(float)
         df.dropna(inplace=True)
         df.index = pd.to_datetime(df.index)
-        df['6-SMA']=df['Close'].astype(float).rolling(window=6).mean()
+        df['Media Movil']=df['Close'].astype(float).rolling(window=6).mean()
         df['12-SMA']=df['Close'].astype(float).rolling(window=12).mean()
 
-        valor = df['6-SMA'].astype(float)
+        valor = df['Media Movil'].astype(float)
         print(valor.tail())
         
         a.clear()
