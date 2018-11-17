@@ -9,6 +9,8 @@ import requests
 import pandas as pd
 import numpy as np
 
+from arima import ModeloArima as ar
+
 LARGE_FONT = ("Verdana", 12)
 NORM_FONT = ("Verdana", 10)
 style.use("ggplot")
@@ -61,7 +63,9 @@ class TimeSeries(tk.Frame):
         canvas = FigureCanvasTkAgg(f, self)
         self.animate()
         canvas.draw()
-        canvas.get_tk_widget().grid(row=4, column=0)
+        canvas = FigureCanvasTkAgg(f, self)
+        canvas.show()
+        canvas.get_tk_widget().grid(row=5, column=0)
 
     def animate(self):
         url ="https://www.alphavantage.co/query"
@@ -89,6 +93,9 @@ class TimeSeries(tk.Frame):
         df.sort_index(inplace=True)
         # extract the columns you want
         value = df['Close'].astype(float)
+
+        ar.arima_modelo(value)
+        
         df.dropna(inplace=True)
         df.index = pd.to_datetime(df.index)
         df['Media Movil']=df['Close'].astype(float).rolling(window=6).mean()
