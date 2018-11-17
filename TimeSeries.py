@@ -19,7 +19,7 @@ f = Figure(figsize=(10, 5), dpi=100)
 a = f.add_subplot(111)
 b = f.add_subplot(111)
 c = f.add_subplot(111)
-d = f.add_subplot(111)
+
 
 
 def popupmsg(msg):
@@ -32,14 +32,17 @@ def popupmsg(msg):
     popup.mainloop()
 
 class TimeSeries(tk.Frame):
+
+    # Inicializar la interfaz desde el constructor
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         label = tk.Label(self, text=(
-            """Bienvenido a la aplicacion de analisis de datos"""))
+            """Bienvenido a la aplicación de análisis de datos"""))
         label.grid(row=0, column=0)
         self.InitUi()
         self.canvasPlot()
 
+    # Definir los valores o elementos que tendra la interfaz
     def InitUi(self):
         self.label = ttk.Label(self, text="Seleccione su ticket")
         self.label.grid(row=1, column=0)
@@ -53,13 +56,18 @@ class TimeSeries(tk.Frame):
 
         self.combo.bind("<<ComboboxSelected>>", self.clickMe)
 
+        # crear la condicion de los checkbox dentro de un frame
+
+
         self.button = ttk.Button(self, text="Start")
         self.button.grid(row=3, column=0)
 
+    # limpiar las lineas cuando se cambie de ticket
     def clickMe(self, event):
         a.clear()
         self.canvasPlot()
 
+    # canvasPlot es el que realiza el despliegue de las lineas
     def canvasPlot(self):
         canvas = FigureCanvasTkAgg(f, self)
         self.animate()
@@ -67,6 +75,9 @@ class TimeSeries(tk.Frame):
         canvas = FigureCanvasTkAgg(f, self)
         canvas.show()
         canvas.get_tk_widget().grid(row=5, column=0)
+
+    # animate lo llame de esa manera porque lo animaba, pero tuve problemas con el tiempo real de los datos asi que le quite la animacion
+    # pero la funcion basica es leer los datos y procesarlo
 
     def animate(self):
         url ="https://www.alphavantage.co/query"
@@ -129,6 +140,7 @@ class TimeSeries(tk.Frame):
 
         #a.set_title(self.ticket.get())
 
+# __name__  es donde creo la raiz de la interfaz
 
 if __name__ == "__main__":
     root = tk.Tk()

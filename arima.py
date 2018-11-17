@@ -11,5 +11,5 @@ class ModeloArima:
         return results
     
     def tendencia(results_predict):
-        return results_predict.predict(start= 20, end =50 , dynamic= True)
+        return results_predict.predict(start= 20, end =60 , dynamic= True)
         
