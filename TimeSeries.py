@@ -19,6 +19,7 @@ f = Figure(figsize=(10, 5), dpi=100)
 a = f.add_subplot(111)
 b = f.add_subplot(111)
 c = f.add_subplot(111)
+d = f.add_subplot(111)
 
 
 def popupmsg(msg):
@@ -94,20 +95,30 @@ class TimeSeries(tk.Frame):
         # extract the columns you want
         value = df['Close'].astype(float)
 
-        ar.arima_modelo(value)
-        
+        modelo_arima = ar.arima_modelo(value)
+        ari = ar.tendencia(modelo_arima)
+
+        df['forecast'] = ari
+        resultados = df['forecast']
+
+
         df.dropna(inplace=True)
         df.index = pd.to_datetime(df.index)
         df['Media Movil']=df['Close'].astype(float).rolling(window=6).mean()
         df['12-SMA']=df['Close'].astype(float).rolling(window=12).mean()
 
-        valor = df['Media Movil'].astype(float)
+        valor = df['Media Movil']
         print(valor.tail())
         
         a.clear()
         b.clear()
+        c.clear()
+
+
         a.plot(value)
         b.plot(valor)
+        c.plot(resultados)
+    
 
         a.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=3,
                  ncol=2, borderaxespad=0)
