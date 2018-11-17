@@ -57,10 +57,14 @@ class TimeSeries(tk.Frame):
         self.combo.bind("<<ComboboxSelected>>", self.clickMe)
 
         # crear la condicion de los checkbox dentro de un frame
+        nuevoFrame = ttk.Frame(self, height = 100, width = 100)
+        nuevoFrame.grid()
 
+        self.combo = ttk.Checkbutton(nuevoFrame,text='ARIMA').grid(row=0, column=0)
+        self.combo2 = ttk.Checkbutton(nuevoFrame,text='MEDIA MOVIL').grid(row=0, column=1)
 
         self.button = ttk.Button(self, text="Start")
-        self.button.grid(row=3, column=0)
+        self.button.grid(row=4, column=0)
 
     # limpiar las lineas cuando se cambie de ticket
     def clickMe(self, event):
@@ -146,7 +150,7 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.title("Series de Tiempo en Python")
     root.geometry("1000x600")
-    TimeSeries(root).pack(side="top", fill="both", expand=True)
+    TimeSeries(root).pack(side="top", fill="both", expand=False)
     #root.iconbitmap(default="icon.ico")
     # menubar todo feo
     menubar = tk.Menu(root)
