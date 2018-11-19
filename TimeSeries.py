@@ -7,8 +7,10 @@ from matplotlib.figure import Figure
 from matplotlib import style
 import requests
 import pandas as pd
-import numpy as np
 
+
+import sqlite3
+from crud import CRUD as cr
 from arima import ModeloArima as ar
 
 LARGE_FONT = ("Verdana", 12)
@@ -16,9 +18,13 @@ NORM_FONT = ("Verdana", 10)
 style.use("ggplot")
 
 f = Figure(figsize=(10, 5), dpi=100)
-a = f.add_subplot(111)
-b = f.add_subplot(111)
-c = f.add_subplot(111)
+a = f.add_subplot(111) # linea de datos normales
+b = f.add_subplot(111) # linea de los datos con la media movil
+c = f.add_subplot(111) # linea de los datos del forecast
+
+con_bd = sqlite3.connect('bd.sqlite3')
+
+# crear la conexion con la base de datos
 
 
 def popupmsg(msg):
@@ -47,10 +53,13 @@ class TimeSeries(tk.Frame):
         self.label.grid(row=1, column=0)
 
         self.ticket = tk.StringVar()
+        lista_nombres = cr.select(con_bd)
+
         self.combo = ttk.Combobox(
-            self, width=15, textvariable=self.ticket, state='readonly')
-        self.combo['values'] = ("AAPL", "MSFT", "AMZN", "GOOG", "ORCL")
-        self.combo.current(2)
+        self, width=15, textvariable=self.ticket, state='readonly', values=lista_nombres)
+        
+        
+        self.combo.current(1)
         self.combo.grid(row=2, column=0)
 
         self.combo.bind("<<ComboboxSelected>>", self.clickMe)
