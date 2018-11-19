@@ -21,7 +21,6 @@ b = f.add_subplot(111)
 c = f.add_subplot(111)
 
 
-
 def popupmsg(msg):
     popup = tk.Tk()
     popup.wm_title("epppa")
@@ -55,30 +54,27 @@ class TimeSeries(tk.Frame):
         self.combo.grid(row=2, column=0)
 
         self.combo.bind("<<ComboboxSelected>>", self.clickMe)
+    
 
-        # crear la condicion de los checkbox dentro de un frame
-        nuevoFrame = ttk.Frame(self, height = 100, width = 100)
-        nuevoFrame.grid()
-
-        self.combo = ttk.Checkbutton(nuevoFrame,text='ARIMA').grid(row=0, column=0)
-        self.combo2 = ttk.Checkbutton(nuevoFrame,text='MEDIA MOVIL').grid(row=0, column=1)
-
-        self.button = ttk.Button(self, text="Start")
-        self.button.grid(row=4, column=0)
 
     # limpiar las lineas cuando se cambie de ticket
     def clickMe(self, event):
         a.clear()
         self.canvasPlot()
-
+        
     # canvasPlot es el que realiza el despliegue de las lineas
     def canvasPlot(self):
+        
+
         canvas = FigureCanvasTkAgg(f, self)
+        
         self.animate()
+
         canvas.draw()
         canvas = FigureCanvasTkAgg(f, self)
         canvas.show()
         canvas.get_tk_widget().grid(row=5, column=0)
+
 
     # animate lo llame de esa manera porque lo animaba, pero tuve problemas con el tiempo real de los datos asi que le quite la animacion
     # pero la funcion basica es leer los datos y procesarlo
@@ -119,12 +115,11 @@ class TimeSeries(tk.Frame):
 
         df.dropna(inplace=True)
         df.index = pd.to_datetime(df.index)
-        df['Media Movil']=df['Close'].astype(float).rolling(window=6).mean()
-        df['12-SMA']=df['Close'].astype(float).rolling(window=12).mean()
+        df['Media Movil']=value.rolling(window=6).mean()
 
         valor = df['Media Movil']
-        print(valor.tail())
-        
+        #print(valor.tail())
+     
         a.clear()
         b.clear()
         c.clear()
@@ -133,11 +128,9 @@ class TimeSeries(tk.Frame):
         a.plot(value)
         b.plot(valor)
         c.plot(resultados)
-    
-
+  
+        
         a.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=3,
-                 ncol=2, borderaxespad=0)
-        b.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=3,
                  ncol=2, borderaxespad=0)
 
 
@@ -150,7 +143,7 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.title("Series de Tiempo en Python")
     root.geometry("1000x600")
-    TimeSeries(root).pack(side="top", fill="both", expand=False)
+    TimeSeries(root).pack(side="top", fill="both", expand=True)
     #root.iconbitmap(default="icon.ico")
     # menubar todo feo
     menubar = tk.Menu(root)
@@ -167,7 +160,7 @@ if __name__ == "__main__":
     menubar.add_cascade(label="Edit", menu=EditMenu)
 
     helpmenu = tk.Menu(menubar, tearoff=0)
-    helpmenu.add_command(label="Help Index")
+    helpmenu.add_command(label="Mostrar Descripción")
     helpmenu.add_command(label="About...")
     menubar.add_cascade(label="Help", menu=helpmenu)
 
