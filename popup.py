@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from crud import CRUD as cr
 import webbrowser
+import pandas as pd
 
 LARGE_FONT = ("Verdana", 12)
 NORM_FONT = ("Verdana", 10)
@@ -69,4 +70,5 @@ class PopUp:
 
     def openHtml():
         webbrowser.open('file:///Users/gcetzal/python-projects/Residencia-ITM/result.html', new=2)
-        
+    
+
