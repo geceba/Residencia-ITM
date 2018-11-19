@@ -12,6 +12,7 @@ import pandas as pd
 import sqlite3
 from crud import CRUD as cr
 from arima import ModeloArima as ar
+from popup import PopUp as pop
 
 LARGE_FONT = ("Verdana", 12)
 NORM_FONT = ("Verdana", 10)
@@ -58,7 +59,7 @@ class TimeSeries(tk.Frame):
         self.combo = ttk.Combobox(
         self, width=15, textvariable=self.ticket, state='readonly', values=lista_nombres)
         
-        
+
         self.combo.current(1)
         self.combo.grid(row=2, column=0)
 
@@ -164,12 +165,12 @@ if __name__ == "__main__":
     menubar.add_cascade(label="File", menu=filemenu)
 
     EditMenu = tk.Menu(menubar, tearoff=0)
-    EditMenu.add_command(label="Copy")
-    EditMenu.add_command(label="Other")
+    EditMenu.add_command(label="Insertar ticket")
+    EditMenu.add_command(label="Borrar ticket")
     menubar.add_cascade(label="Edit", menu=EditMenu)
 
     helpmenu = tk.Menu(menubar, tearoff=0)
-    helpmenu.add_command(label="Mostrar Descripción")
+    helpmenu.add_command(label="Mostrar Descripción", command=lambda:pop.insert_data(con_bd))
     helpmenu.add_command(label="About...")
     menubar.add_cascade(label="Help", menu=helpmenu)
 
