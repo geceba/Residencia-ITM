@@ -42,7 +42,7 @@ class PopUp:
         
         
             pos = 0
-            print(items)
+            #print(items)
             for i in items :
                 idx = int(i) - pos
                 data = list_box_1.get(i, tk.END)
