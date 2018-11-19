@@ -15,6 +15,11 @@ class PopUp:
             if len(e1.get()) > 0  and len(e2.get()) > 0:
                 cr.insert(con, e1.get(), e2.get())
                 master.destroy()
+            elif len(e1.get()) == 0:
+                e1.config(highlightbackground="red")
+                e1.focus()
+            elif len(e2.get()) == 0:
+                e2.focus()
 
         master = tk.Tk()
         master.geometry("400x300")
