@@ -1,0 +1,7 @@
+table {
+    width: 500px;
+ }
+ th, td {
+    width: 25%;
+    text-align: left;
+ }

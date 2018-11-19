@@ -119,6 +119,15 @@ class TimeSeries(tk.Frame):
         modelo_arima = ar.arima_modelo(value)
         ari = ar.tendencia(modelo_arima)
 
+        reporte = modelo_arima.summary()
+        html = reporte.as_html()
+
+
+        with open('result.html', 'w+') as myfile:
+            myfile.write("<html><head><link <link rel='stylesheet' href='estilos.css'></head><body>")
+            myfile.write(html)
+            myfile.write("</body></html>")
+
         df['forecast'] = ari
         resultados = df['forecast']
 
@@ -170,7 +179,7 @@ if __name__ == "__main__":
     menubar.add_cascade(label="Edit", menu=EditMenu)
 
     helpmenu = tk.Menu(menubar, tearoff=0)
-    helpmenu.add_command(label="Mostrar Descripción")
+    helpmenu.add_command(label="Mostrar Descripción", command=pop.openHtml)
     helpmenu.add_command(label="About...")
     menubar.add_cascade(label="Help", menu=helpmenu)
 

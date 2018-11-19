@@ -8,6 +8,7 @@ class ModeloArima:
         results = model.fit()
         #print(results.summary())
 
+
         return results
     
     def tendencia(results_predict):

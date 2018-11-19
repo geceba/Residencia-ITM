@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from crud import CRUD as cr
-
+import webbrowser
 
 LARGE_FONT = ("Verdana", 12)
 NORM_FONT = ("Verdana", 10)
@@ -67,4 +67,6 @@ class PopUp:
             list_box_1.insert( tk.END, s)
         root.mainloop()
 
+    def openHtml():
+        webbrowser.open('file:///Users/gcetzal/python-projects/Residencia-ITM/result.html', new=2)
         
