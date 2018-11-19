@@ -15,7 +15,9 @@ class CRUD:
         return lista_nombres
     
     def delete(con, name):
-        con.execute("DELETE FROM tickets WHERE name=?", name)
+        sql = 'DELETE FROM tickets WHERE name=?'
+        cur = con.cursor()
+        cur.execute(sql, (name,))
         con.commit()
         con.close()
     

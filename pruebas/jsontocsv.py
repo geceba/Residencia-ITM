@@ -3,10 +3,13 @@ import csv
 import pandas as pd
 
 
-r = requests.get("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&apikey=TU10HCWDTV5CNVBN")
-
+r = requests.get("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=asdfinterval=1min&apikey=TU10HCWDTV5CNVBN")
+if r.status_code == 200:
+	print("Hola")
+else:
+	print("la cagaste")
 data = r.json()
-print(type(data))
+
 
 dicto = []
 
@@ -15,8 +18,8 @@ for valor in data["Time Series (1min)"]:
 	d = data["Time Series (1min)"][valor]
 	dicto.append(d)
 
-print(type(dicto))
+#print(type(dicto))
 
 
-df= pd.DataFrame(dicto)
-print(df)
+#df= pd.DataFrame(dicto)
+#print(df)

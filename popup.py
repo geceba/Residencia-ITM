@@ -12,15 +12,17 @@ class PopUp:
         
         def show_entry_fields():
             #print("First Name: %s\nLast Name: %s" % (e1.get(), e2.get()))
-            cr.insert(con, e1.get(), e2.get())
+            if len(e1.get()) > 0  and len(e2.get()) > 0:
+                cr.insert(con, e1.get(), e2.get())
+                master.destroy()
 
         master = tk.Tk()
         master.wm_title("Insertar Datos")
         tk.Label(master, text="Ticket: ").grid(row=0)
         tk.Label(master, text="Empresa: ").grid(row=1)
 
-        e1 = tk. Entry(master)
-        e2 = tk. Entry(master)
+        e1 = tk.Entry(master)
+        e2 = tk.Entry(master)
 
         e1.grid(row=0, column=1)
         e2.grid(row=1, column=1)
@@ -29,3 +31,34 @@ class PopUp:
         tk.Button(master, text='Agregar', command=show_entry_fields).grid(row=3, column=1, sticky=tk.W, pady=5)
 
         master.mainloop( )
+    
+    def delete_data(con):
+
+        conexion = con        
+
+        def DeleteSelection():
+            items = list_box_1.curselection()
+        
+        
+            pos = 0
+            print(items)
+            for i in items :
+                idx = int(i) - pos
+                data = list_box_1.get(i, tk.END)
+                cr.delete(conexion, data[0])
+                list_box_1.delete( idx,idx )
+                pos = pos + 1
+
+        root = tk.Tk()
+        root.wm_title("Eliminar Datos")
+        list_box_1 = tk.Listbox(root, selectmode=tk.EXTENDED)
+        list_box_1.pack()
+        delete_button = tk.Button(root, text="Delete",command=DeleteSelection)
+        delete_button.pack()
+
+        for i in cr.select(con) :
+            s = i
+            list_box_1.insert( tk.END, s)
+        root.mainloop()
+
+        

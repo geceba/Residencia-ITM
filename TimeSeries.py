@@ -165,12 +165,12 @@ if __name__ == "__main__":
     menubar.add_cascade(label="File", menu=filemenu)
 
     EditMenu = tk.Menu(menubar, tearoff=0)
-    EditMenu.add_command(label="Insertar ticket")
-    EditMenu.add_command(label="Borrar ticket")
+    EditMenu.add_command(label="Insertar ticket", command=lambda:pop.insert_data(con_bd))
+    EditMenu.add_command(label="Borrar ticket", command=lambda:pop.delete_data(con_bd))
     menubar.add_cascade(label="Edit", menu=EditMenu)
 
     helpmenu = tk.Menu(menubar, tearoff=0)
-    helpmenu.add_command(label="Mostrar Descripción", command=lambda:pop.insert_data(con_bd))
+    helpmenu.add_command(label="Mostrar Descripción")
     helpmenu.add_command(label="About...")
     menubar.add_cascade(label="Help", menu=helpmenu)
 
