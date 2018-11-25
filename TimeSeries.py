@@ -63,12 +63,12 @@ class TimeSeries(tk.Frame):
         self.combo.current(1)
         self.combo.grid(row=2, column=0)
 
-        self.combo.bind("<<ComboboxSelected>>", self.clickMe)
+        self.combo.bind("<<ComboboxSelected>>")
     
-
+        self.content_frame()
 
     # limpiar las lineas cuando se cambie de ticket
-    def clickMe(self, event):
+    def clickMe(self):
         a.clear()
         self.canvasPlot()
         
@@ -85,10 +85,20 @@ class TimeSeries(tk.Frame):
         canvas.show()
         canvas.get_tk_widget().grid(row=5, column=0)
 
+    def content_frame(self):
+        master = tk.Frame(self)
+        botonTest = tk.Button(master, text='Graficar', command= self.clickMe).grid(row=0, column=0)
+        exportar = tk.Button(master, text="CSV", command=self.test).grid(row=0, column=1)
+        master.grid(row=3, column=0)
+
+    # forma rápida para obtener el valor del dataframe y mandarlo a un formato csv
+    def test(self):
+        print(value)
 
     # animate lo llame de esa manera porque lo animaba, pero tuve problemas con el tiempo real de los datos asi que le quite la animacion
     # pero la funcion basica es leer los datos y procesarlo
-
+    
+    
     def animate(self):
         url ="https://www.alphavantage.co/query"
 
@@ -114,6 +124,7 @@ class TimeSeries(tk.Frame):
         df.set_index('datetime', inplace=True)
         df.sort_index(inplace=True)
         # extract the columns you want
+        global value
         value = df['Close'].astype(float)
 
         modelo_arima = ar.arima_modelo(value)
