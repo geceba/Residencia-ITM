@@ -7,7 +7,7 @@ from matplotlib.figure import Figure
 from matplotlib import style
 import requests
 import pandas as pd
-
+import time
 
 import sqlite3
 from crud import CRUD as cr
@@ -88,12 +88,13 @@ class TimeSeries(tk.Frame):
     def content_frame(self):
         master = tk.Frame(self)
         botonTest = tk.Button(master, text='Graficar', command= self.clickMe).grid(row=0, column=0)
-        exportar = tk.Button(master, text="CSV", command=self.test).grid(row=0, column=1)
+        exportar = tk.Button(master, text="CSV", command=self.csv_export).grid(row=0, column=1)
         master.grid(row=3, column=0)
 
     # forma rápida para obtener el valor del dataframe y mandarlo a un formato csv
-    def test(self):
+    def csv_export(self):
         print(value)
+        export_csv = value.to_csv(r''+self.ticket.get()+time.strftime("%c")+'.csv',  index = True, header=True)
 
     # animate lo llame de esa manera porque lo animaba, pero tuve problemas con el tiempo real de los datos asi que le quite la animacion
     # pero la funcion basica es leer los datos y procesarlo
