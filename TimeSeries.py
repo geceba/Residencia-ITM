@@ -8,6 +8,7 @@ from matplotlib import style
 import requests
 import pandas as pd
 import time
+import matplotlib.pyplot as plt
 
 import sqlite3
 from crud import CRUD as cr
@@ -90,8 +91,26 @@ class TimeSeries(tk.Frame):
     # contenido del frame para agregarlo al principal
     def content_frame(self):
         master = tk.Frame(self)
-        botonTest = tk.Button(master, text='Graficar', command= self.clickMe).grid(row=0, column=0)
-        exportar = tk.Button(master, text="CSV", command=self.csv_export).grid(row=0, column=1)
+        fecha_1 = tk.Label(master, text='Fecha Inicio').grid(row=0,column=1)
+        
+        global entry_end, entry_start, start, end
+
+        entry_start = tk.StringVar()
+        entry_end = tk.StringVar()
+
+        start = tk.IntVar()
+        end = tk.IntVar()
+
+        fecha_entry_1 = tk.Entry(master, textvariable=entry_start).grid(row=0, column=2)
+        fecha_2 = tk.Label(master, text='Fecha Fin').grid(row=0, column=3)
+
+        fecha_entry_2 = tk.Entry(master, textvariable=entry_end).grid(row=0, column=4)
+        p_start = tk.Entry(master, textvariable=start).grid(row=1, column=2)
+        p_end = tk.Entry(master, textvariable=end).grid(row=1, column=4)
+
+        botonTest = tk.Button(master, text='Graficar', command= self.clickMe).grid(row=2, column=2)
+        
+        exportar = tk.Button(master, text="Exportar csv", command=self.csv_export).grid(row=2, column=3)
         master.grid(row=3, column=0)
 
     # forma rápida para obtener el valor del dataframe y mandarlo a un formato csv
@@ -130,7 +149,11 @@ class TimeSeries(tk.Frame):
         global value
         value = df['Close'].astype(float)
 
-        modelo_arima = ar.arima_modelo(value)
+
+        print("valor: " ,entry_start.get())
+
+        
+        modelo_arima = ar.arima_modelo(value, entry_start.get(), entry_end.get())
         ari = ar.tendencia(modelo_arima)
 
         reporte = modelo_arima.summary()
@@ -172,7 +195,6 @@ class TimeSeries(tk.Frame):
         c.clear()
         upper.clear()
         lower.clear()
-
 
         a.plot(value, color='b')
         b.plot(data_frame['MA'], color='m')
