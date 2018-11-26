@@ -85,6 +85,7 @@ class TimeSeries(tk.Frame):
         canvas.show()
         canvas.get_tk_widget().grid(row=5, column=0)
 
+    # contenido del frame para agregarlo al principal
     def content_frame(self):
         master = tk.Frame(self)
         botonTest = tk.Button(master, text='Graficar', command= self.clickMe).grid(row=0, column=0)
@@ -93,7 +94,6 @@ class TimeSeries(tk.Frame):
 
     # forma rápida para obtener el valor del dataframe y mandarlo a un formato csv
     def csv_export(self):
-        print(value)
         export_csv = value.to_csv(r''+self.ticket.get()+time.strftime("%c")+'.csv',  index = True, header=True)
 
     # animate lo llame de esa manera porque lo animaba, pero tuve problemas con el tiempo real de los datos asi que le quite la animacion
@@ -119,12 +119,12 @@ class TimeSeries(tk.Frame):
                 yield r
 
         df = pd.DataFrame(convert_response(data))
-        # rename the columns    
+        # renombrar las columnas  
         df = df.rename(columns={ '1. open': 'Open', '2. high': 'High', '3. low': 'Low', '4. close': 'Close', '5. adjusted close': 'AdjClose', '6. volume': 'Volume'})
         df['datetime'] = pd.to_datetime(df['datetime'])
         df.set_index('datetime', inplace=True)
         df.sort_index(inplace=True)
-        # extract the columns you want
+        # extraer la informacion que quiero
         global value
         value = df['Close'].astype(float)
 
@@ -145,11 +145,16 @@ class TimeSeries(tk.Frame):
 
 
         df.dropna(inplace=True)
-        df.index = pd.to_datetime(df.index)
-        df['Media Movil']=value.rolling(window=6).mean()
 
-        valor = df['Media Movil']
-        #print(valor.tail())
+
+        
+        df.index = pd.to_datetime(df.index)
+        # calcular la media movil en un nuevo df, da un error de logico y no muesta todos los datos cuando se trata de sobreesribir
+        MovingAvarage = value.rolling(window=6).mean()
+        
+        newdata = pd.DataFrame(MovingAvarage)
+        newdata = newdata.rename(columns={"datetime": "datetime", "Close": "Media Movil"})
+
      
         a.clear()
         b.clear()
@@ -157,11 +162,14 @@ class TimeSeries(tk.Frame):
 
 
         a.plot(value)
-        b.plot(valor)
+        b.plot(newdata['Media Movil'])
         c.plot(resultados)
   
         
         a.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=3,
+                 ncol=2, borderaxespad=0)
+
+        b.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=3,
                  ncol=2, borderaxespad=0)
 
 
