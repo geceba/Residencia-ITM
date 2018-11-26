@@ -22,6 +22,8 @@ f = Figure(figsize=(10, 5), dpi=100)
 a = f.add_subplot(111) # linea de datos normales
 b = f.add_subplot(111) # linea de los datos con la media movil
 c = f.add_subplot(111) # linea de los datos del forecast
+upper = f.add_subplot(111)
+lower = f.add_subplot(111)
 
 con_bd = sqlite3.connect('bd.sqlite3')
 
@@ -146,31 +148,43 @@ class TimeSeries(tk.Frame):
 
         df.dropna(inplace=True)
 
-
-        
         df.index = pd.to_datetime(df.index)
-        # calcular la media movil en un nuevo df, da un error de logico y no muesta todos los datos cuando se trata de sobreesribir
-        MovingAvarage = value.rolling(window=6).mean()
-        
-        newdata = pd.DataFrame(MovingAvarage)
-        newdata = newdata.rename(columns={"datetime": "datetime", "Close": "Media Movil"})
 
+
+        # calcular la media movil en un nuevo df, da un error de logico y no muesta todos los datos cuando se trata de sobreesribir
+        
+        data_frame = pd.DataFrame(value)
+        data_frame['MA'] = data_frame['Close'].rolling(window=12).mean()
+        data_frame['STD'] = data_frame['Close'].rolling(window=12).std()
+        data_frame['Upper Band'] = data_frame['MA'] + (data_frame['STD'] * 2)
+        data_frame['Lower Band'] = data_frame['MA'] - (data_frame['STD'] * 2)
+
+       # MovingAvarage = value.rolling(window=6).mean()
+        
+        #newdata = newdata.rename(columns={"datetime": "datetime", "Close": "Media Movil"})
+        #newdata = pd.DataFrame(MovingAvarage)
+        #df['Upper Band'] = df['MA'] + (df['STD'] * 2)
+        #df['STD'] = df['Close'].rolling(window=12).std()
+        #df['Lower Band'] = df['MA'] - (df['STD'] * 2)
      
         a.clear()
         b.clear()
         c.clear()
+        upper.clear()
+        lower.clear()
 
 
-        a.plot(value)
-        b.plot(newdata['Media Movil'])
-        c.plot(resultados)
-  
+        a.plot(value, color='b')
+        b.plot(data_frame['MA'], color='m')
+        c.plot(resultados, color='y')
+        upper.plot(data_frame['Upper Band'], color='g')
+        lower.plot(data_frame['Lower Band'], color='r')
+        lower.legend(loc="upper right")
         
-        a.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=3,
-                 ncol=2, borderaxespad=0)
+        #a.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=4,
+         #        ncol=3, borderaxespad=0)
 
-        b.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=3,
-                 ncol=2, borderaxespad=0)
+        
 
 
 
