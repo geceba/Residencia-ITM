@@ -93,6 +93,7 @@ class TimeSeries(tk.Frame):
         master = tk.Frame(self)
         fecha_1 = tk.Label(master, text='Fecha Inicio').grid(row=0,column=1)
         
+        
         global entry_end, entry_start, start, end
 
         entry_start = tk.StringVar()
@@ -102,10 +103,16 @@ class TimeSeries(tk.Frame):
         end = tk.IntVar()
 
         fecha_entry_1 = tk.Entry(master, textvariable=entry_start).grid(row=0, column=2)
+
+
         fecha_2 = tk.Label(master, text='Fecha Fin').grid(row=0, column=3)
 
         fecha_entry_2 = tk.Entry(master, textvariable=entry_end).grid(row=0, column=4)
+        
+        lbl_start = tk.Label(master, text='Punto Inicio').grid(row=1, column=1)
         p_start = tk.Entry(master, textvariable=start).grid(row=1, column=2)
+
+        lbl_end = tk.Label(master, text="Punto Fin").grid(row=1, column=3)
         p_end = tk.Entry(master, textvariable=end).grid(row=1, column=4)
 
         botonTest = tk.Button(master, text='Graficar', command= self.clickMe).grid(row=2, column=2)
@@ -150,11 +157,12 @@ class TimeSeries(tk.Frame):
         value = df['Close'].astype(float)
 
 
-        print("valor: " ,entry_start.get())
+        #print("valor: " ,entry_start.get())
+        #print("numero: ", type(start.get()))
 
         
         modelo_arima = ar.arima_modelo(value, entry_start.get(), entry_end.get())
-        ari = ar.tendencia(modelo_arima)
+        ari = ar.tendencia(modelo_arima, start.get(), end.get())
 
         reporte = modelo_arima.summary()
         html = reporte.as_html()
@@ -217,7 +225,7 @@ class TimeSeries(tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Series de Tiempo en Python")
-    root.geometry("1000x600")
+    root.geometry("1000x700")
     TimeSeries(root).pack(side="top", fill="both", expand=True)
     #root.iconbitmap(default="icon.ico")
     # menubar todo feo
