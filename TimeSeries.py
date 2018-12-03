@@ -53,7 +53,7 @@ class TimeSeries(tk.Frame):
 
     # Definir los valores o elementos que tendra la interfaz
     def InitUi(self):
-        self.label = ttk.Label(self, text="Seleccione su ticket")
+        self.label = ttk.Label(self, text="Seleccione su ticker")
         self.label.grid(row=1, column=0)
 
         self.ticket = tk.StringVar()
@@ -232,8 +232,8 @@ if __name__ == "__main__":
     menubar.add_cascade(label="File", menu=filemenu)
 
     EditMenu = tk.Menu(menubar, tearoff=0)
-    EditMenu.add_command(label="Insertar ticket", command=lambda:pop.insert_data(con_bd))
-    EditMenu.add_command(label="Borrar ticket", command=lambda:pop.delete_data(con_bd))
+    EditMenu.add_command(label="Insertar ticker", command=lambda:pop.insert_data(con_bd))
+    EditMenu.add_command(label="Borrar ticker", command=lambda:pop.delete_data(con_bd))
     menubar.add_cascade(label="Edit", menu=EditMenu)
 
     helpmenu = tk.Menu(menubar, tearoff=0)

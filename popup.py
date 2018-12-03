@@ -25,7 +25,7 @@ class PopUp:
         master = tk.Tk()
         master.geometry("400x300")
         master.wm_title("Insertar Datos")
-        tk.Label(master, text="Ticket: ").grid(row=0, ipady=10)
+        tk.Label(master, text="Ticker: ").grid(row=0, ipady=10)
         tk.Label(master, text="Empresa: ").grid(row=1, ipady=10)
 
         e1 = tk.Entry(master)
