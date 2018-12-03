@@ -119,7 +119,7 @@ class TimeSeries(tk.Frame):
 
         botonTest = tk.Button(master, text='Graficar', command= self.clickMe).grid(row=2, column=2)
         
-        exportar = tk.Button(master, text="Exportar csv", command=self.csv_export).grid(row=2, column=3)
+        exportar = tk.Button(master, text="Close csv", command=self.csv_export).grid(row=2, column=3)
         master.grid(row=3, column=0)
 
     # forma rápida para obtener el valor del dataframe y mandarlo a un formato csv
@@ -213,14 +213,6 @@ class TimeSeries(tk.Frame):
         lower.plot(data_frame['Lower Band'], color='r')
         lower.legend(loc="upper right")
         
-        #a.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc=4,
-         #        ncol=3, borderaxespad=0)
-
-        
-
-
-
-        #a.set_title(self.ticket.get())
 
 # __name__  es donde creo la raiz de la interfaz
 
@@ -250,5 +242,7 @@ if __name__ == "__main__":
     menubar.add_cascade(label="Help", menu=helpmenu)
 
     root.config(menu=menubar)
+    root.configure(background='white')
+    root.eval('tk::PlaceWindow %s center' % root.winfo_pathname(root.winfo_id()))
     # fin del menu
     root.mainloop()

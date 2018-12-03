@@ -52,11 +52,12 @@ class PopUp:
             for i in items :
                 idx = int(i) - pos
                 data = list_box_1.get(i, tk.END)
-                cr.delete(conexion, data[0])
+                cr.delete(conexion, data[1])
                 list_box_1.delete( idx,idx )
                 pos = pos + 1
 
         root = tk.Tk()
+        root.geometry("300x250")
         root.wm_title("Eliminar Datos")
         list_box_1 = tk.Listbox(root, selectmode=tk.EXTENDED)
         list_box_1.pack()
