@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import matplotlib
 matplotlib.use("TkAgg")
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
 from matplotlib import style
 import requests
@@ -81,12 +81,14 @@ class TimeSeries(tk.Frame):
 
         canvas = FigureCanvasTkAgg(f, self)
         
-        self.animate()
+        self.grafica()
 
         canvas.draw()
         canvas = FigureCanvasTkAgg(f, self)
         canvas.show()
         canvas.get_tk_widget().grid(row=5, column=0)
+
+     
 
     # contenido del frame para agregarlo al principal
     def content_frame(self):
@@ -123,12 +125,9 @@ class TimeSeries(tk.Frame):
     # forma rápida para obtener el valor del dataframe y mandarlo a un formato csv
     def csv_export(self):
         export_csv = value.to_csv(r''+self.ticket.get()+time.strftime("%c")+'.csv',  index = True, header=True)
-
-    # animate lo llame de esa manera porque lo animaba, pero tuve problemas con el tiempo real de los datos asi que le quite la animacion
-    # pero la funcion basica es leer los datos y procesarlo
     
     
-    def animate(self):
+    def grafica(self):
         url ="https://www.alphavantage.co/query"
 
         params = {
@@ -203,6 +202,9 @@ class TimeSeries(tk.Frame):
         c.clear()
         upper.clear()
         lower.clear()
+
+        a.set_xlabel("Fecha")
+        a.set_ylabel("Valores de Cierre")        
 
         a.plot(value, color='b')
         b.plot(data_frame['MA'], color='m')
