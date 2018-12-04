@@ -117,10 +117,12 @@ class TimeSeries(tk.Frame):
         lbl_end = tk.Label(master, text="Punto Fin").grid(row=1, column=3)
         p_end = tk.Entry(master, textvariable=end).grid(row=1, column=4)
 
-        botonTest = tk.Button(master, text='Graficar', command= self.clickMe).grid(row=2, column=2)
+        botonTest = tk.Button(master, text='Graficar', command= self.clickMe, padx=20, pady=5).grid(row=2, column=2)
         
-        exportar = tk.Button(master, text="Close csv", command=self.csv_export).grid(row=2, column=3)
+        exportar = tk.Button(master, text="Close csv", command=self.csv_export, padx=20, pady=5).grid(row=2, column=3)
         master.grid(row=3, column=0)
+
+        exportar_forecast = tk.Button(master, text="Predicción", padx=20, pady=5).grid(row=2, column=4)
 
     # forma rápida para obtener el valor del dataframe y mandarlo a un formato csv
     def csv_export(self):
