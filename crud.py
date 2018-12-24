@@ -19,7 +19,6 @@ class CRUD:
         cur = con.cursor()
         cur.execute(sql, (name,))
         con.commit()
-        con.close()
     
   
 

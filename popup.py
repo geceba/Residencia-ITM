@@ -52,7 +52,7 @@ class PopUp:
             for i in items :
                 idx = int(i) - pos
                 data = list_box_1.get(i, tk.END)
-                cr.delete(conexion, data[1])
+                cr.delete(conexion, data[0])
                 list_box_1.delete( idx,idx )
                 pos = pos + 1
 
